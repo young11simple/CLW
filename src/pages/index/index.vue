@@ -67,7 +67,6 @@ img{
     width: 120rpx;
     height:120rpx;
     margin-bottom: 10px;
-    border: 1px solid #ddd;
     border-radius: 4px;
     padding: 5px;
 }

@@ -20,14 +20,14 @@ function requestMock (url) {
 }
 
 // 请求真实接口
-function requestServer (url, methos, data) {
+function requestServer (url, methods, data) {
   return new Promise((resolve, reject) => {
     let headerParam = {
       'Content-Type': 'application/json'
     }
     promisify(wx.request, {
       url: `${webUrl}${url}`,
-      methods: {},
+      methods,
       data,
       header: headerParam
     }).then(res => {

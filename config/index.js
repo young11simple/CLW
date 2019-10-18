@@ -1,30 +1,30 @@
 // see http://vuejs-templates.github.io/webpack for documentation.
 var path = require('path')
 var fileExtConfig = {
-    swan: {
-        template: 'swan',
-        script: 'js',
-        style: 'css',
-        platform: 'swan'
-    },
-    tt: {
-        template: 'ttml',
-        script: 'js',
-        style: 'ttss',
-        platform: 'tt'
-    },
-    wx: {
-        template: 'wxml',
-        script: 'js',
-        style: 'wxss',
-        platform: 'wx'
-    },
-    my: {
-        template: 'axml',
-        script: 'js',
-        style: 'acss',
-        platform: 'my'
-    }
+  swan: {
+    template: 'swan',
+    script: 'js',
+    style: 'css',
+    platform: 'swan'
+  },
+  tt: {
+    template: 'ttml',
+    script: 'js',
+    style: 'ttss',
+    platform: 'tt'
+  },
+  wx: {
+    template: 'wxml',
+    script: 'js',
+    style: 'wxss',
+    platform: 'wx'
+  },
+  my: {
+    template: 'axml',
+    script: 'js',
+    style: 'acss',
+    platform: 'my'
+  }
 }
 var fileExt = fileExtConfig[process.env.PLATFORM]
 
@@ -51,7 +51,7 @@ module.exports = {
   },
   dev: {
     env: require('./dev.env'),
-    port: 8080,
+    port: 9080,
     // 在小程序开发者工具中不需要自动打开浏览器
     autoOpenBrowser: false,
     assetsSubDirectory: '',

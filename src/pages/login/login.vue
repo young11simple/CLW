@@ -9,15 +9,21 @@
           <table>
             <tr>
               <td id="label">账号</td>
-              <td id="input"><input type="number" name="id" id="id" placeholder="请输入账号（只限数字）"></td>
+              <td id="input"><input type="number" name="id" id="id" placeholder="请输入账号（不少于11位）" v-model="aVal"></td>
+            </tr>
+            <tr v-show="aIsShow">
+              <td id="tips">{{aTip}}</td>
             </tr>
             <tr>
               <td id="label">密码</td>
-              <td id="input"><input type="password" id="password" name="password" placeholder="请输入密码（不少于6位）"></td>
+              <td id="input"><input type="password" id="password" name="password" placeholder="请输入密码（不少于6位）" v-model="pVal"></td>
             </tr>
+            <tr v-show="pIsShow">
+              <td id="tips">{{pTip}}</td>
             <tr>
-              <td id="button"><input type="button" name="submintForm" value="提交"/></td>
-              <td id="button"><input type="button" name="reset" value="重置"/></td>
+            <tr>
+              <td id="button"><input type="button" name="submintForm" value="登录" @click="checkUserInfo"/></td>
+              <td id="button"><input type="button" name="reset" value="重置" @click="resetUserInfo"/></td>
             </tr>
           </table>
         </form> 
@@ -26,18 +32,50 @@
 </template>
 
 <script>
+import md5 from 'md5'
+
 export default {
   data () {
     return {
       img: '/static/images/JieBeiCounty.png',
-      title: 'Welcome to CLW<br/>Please login first'
+      title: 'Welcome to CLW<br/>Please login first',
+      aIsShow: false,
+      pIsShow: false,
+      aTip: '账号不能为空',
+      pTip: '密码不能为空',
+      aVal: '',
+      pVal: ''
     }
   },
   methods: {
+    loginSuccess: function (res) {
+      console.log('登录成功', res)
+    },
+    loginFail: function (err) {
+      console.log('登录失败', err)
+    },
     checkUserInfo: function () {
-      wx.navigateTo({
-        url: '../user/main'
-      })
+      if (this.aVal === '') { this.aTip = '账号不能为空'; this.aIsShow = true } else { this.aIsShow = false }
+      if (this.pVal === '') { this.pTip = '密码不能为空'; this.pIsShow = true } else { this.pIsShow = false }
+      if (this.aVal.length < 11 && this.aVal.length > 0) { this.aTip = '账号不能少于11位'; this.aIsShow = true }
+      if (this.pVal.length < 6 && this.pVal.length > 0) { this.pTip = '密码不能少于6位'; this.pIsShow = true }
+      if ((!this.aIsShow) && (!this.pIsShow)) {
+        const jsonData = {
+          id: this.aVal,
+          password: md5(this.pVal)
+        }
+        console.log('测试账号密码是否正确', jsonData)
+        // loginTest(jsonData, this).then(res => this.loginSuccess(res))
+          .catch(err => this.loginFail(err))
+        /*
+        wx.navigateTo({
+          url: '../user/main'
+        }) */
+      }
+    },
+    resetUserInfo: function () {
+      this.aVal = ''
+      this.pVal = ''
     }
   }
 }
@@ -58,8 +96,10 @@ export default {
 }
 
 .can11{
-  width: 100%;
-  height: 40%;
+  width: 120rpx;
+  height: 120rpx;
+  padding: 10rpx 10rpx;
+  margin: auto auto;
 }
 
 .can12{
@@ -78,11 +118,9 @@ h1{
 }
 
 img{
-  margin-top: 20rpx;
-    width: 15%;
-    height: 65%;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    margin-top: 20rpx;
+    width: 110rpx;
+    height:110rpx;
 }
 
 .can2{
@@ -111,6 +149,16 @@ tr td{
   border-radius: 16rpx;
   float: left;
   margin:20rpx 20rpx;
+}
+
+#tips{
+  width: 65%;
+  font-size: 30rpx;
+  background-color: #ccc;
+  color:rebeccapurple;
+  clear: both;
+  margin: 0 20rpx 0 150rpx;
+  padding: 0 0 ;
 }
 
 table #input{
